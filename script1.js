@@ -42,14 +42,7 @@ function sendMessage() {
     var msg = inputField.value;
     if (msg != '') {
         /* Get date */
-        let seconds = new Date().getSeconds();
-        if (seconds < 10) {
-            seconds = "0" + seconds.toString();
-        }
-        let dateUTCfull = (new Date().getDate()).toString() + "/" +
-        (new Date().getMonth()).toString() + "/" + (new Date().getFullYear()).toString()
-        + " " + (new Date().getHours()).toString() + ":" +
-        (new Date().getMinutes()).toString() + ":" + seconds;
+        let dateAndTime = getActualDate();
         /* Create the main div for text message */
         var div = document.createElement('div');
         div.classList.add('my-message-div');
@@ -63,7 +56,7 @@ function sendMessage() {
         /* Create a paragraph that contains the date */
         var date = document.createElement('p');
         date.classList.add('date');
-        date.innerText = dateUTCfull;
+        date.innerText = dateAndTime;
         /* Append each element to the parent ones */
         div.appendChild(messageDiv);
         messageDiv.appendChild(parag);
@@ -79,7 +72,7 @@ function sendMessage() {
 }
 
 function receiveMessage(x) {
-    var dateUTCfull = new Date();
+    let dateAndTime = getActualDate();
     /* Create the main div for text message */
     var div = document.createElement("div");
     div.classList.add('bot-message-div');
@@ -93,11 +86,31 @@ function receiveMessage(x) {
     /* Create a paragraph that contains the date */
     var date = document.createElement('p');
     date.classList.add('date');
-    date.innerText = dateUTCfull;
+    date.innerText = dateAndTime;
     /* Append each element to the other ones */
     div.appendChild(messageDiv);
     messageDiv.appendChild(parag);
     messageDiv.appendChild(date);
     chatHistory.appendChild(div);
     chatHistory.scrollTop = chatHistory.scrollHeight;
+}
+
+function getActualDate() {
+    var hours = new Date().getHours();
+    var minutes = new Date().getMinutes();
+    var seconds = new Date().getSeconds();
+    function decimalShow(x) {
+        if (x < 10) {
+        x = "0" + x.toString();
+        }
+        return x;
+    }
+    hours = decimalShow(hours);
+    minutes= decimalShow(minutes);
+    seconds = decimalShow(seconds);
+    var date = (new Date().getDate()).toString() + "/" +
+    (new Date().getMonth()).toString() + "/" + (new Date().getFullYear()).toString()
+    + " " + hours + ":" + minutes + ":" + seconds;
+
+    return date
 }
