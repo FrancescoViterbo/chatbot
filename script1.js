@@ -6,6 +6,7 @@ class Reply {
     }
     AIreply(loweredMessage) {
         if (this.knownSentences.includes(loweredMessage)) {
+            // console.log(this.knownReplies);
             var reply = this.knownReplies[Math.floor(Math.random() * this.knownReplies.length)];
             return reply;
         }
@@ -15,6 +16,11 @@ class Reply {
 salute = new Reply();
 salute.knownSentences = ["hi", "hello", "what's up", "good morning", "good evening",
                         "good day", "hey", "hey there"];
+    if (new Date().getHours() >= 12 && new Date().getHours() <= 24) {
+        salute.knownSentences.splice(3, 1);
+    } else {
+        salute.knownSentences.splice(4, 1);
+    }
 salute.knownReplies = salute.knownSentences;
 
 // Connection to index.html
@@ -36,7 +42,14 @@ function sendMessage() {
     var msg = inputField.value;
     if (msg != '') {
         /* Get date */
-        var dateUTCfull = new Date();
+        let seconds = new Date().getSeconds();
+        if (seconds < 10) {
+            seconds = "0" + seconds.toString();
+        }
+        let dateUTCfull = (new Date().getDate()).toString() + "/" +
+        (new Date().getMonth()).toString() + "/" + (new Date().getFullYear()).toString()
+        + " " + (new Date().getHours()).toString() + ":" +
+        (new Date().getMinutes()).toString() + ":" + seconds;
         /* Create the main div for text message */
         var div = document.createElement('div');
         div.classList.add('my-message-div');
