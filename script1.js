@@ -16,12 +16,16 @@ class Reply {
 salute = new Reply();
 salute.knownSentences = ["hi", "hello", "what's up", "good morning", "good evening",
                         "good day", "hey", "hey there"];
+/* fixare bug che toglie espressioni anche a knownSentences */
+modifiedKnown = salute.knownSentences
     if (new Date().getHours() >= 12 && new Date().getHours() <= 24) {
-        salute.knownSentences.splice(3, 1);
+        modifiedKnown.splice(3, 1);
     } else {
-        salute.knownSentences.splice(4, 1);
+        modifiedKnown.splice(4, 1);
     }
-salute.knownReplies = salute.knownSentences;
+salute.knownReplies = modifiedKnown;
+console.log(salute.knownReplies);
+console.log(salute.knownSentences);
 
 // Connection to index.html
 const chatHistory = document.getElementById('chat-history');
